@@ -43,7 +43,7 @@ ionic plugin ls
 
 ### 五，删除插件
 ```
-ionic plugin rm cordova.sunmoon.location.location
+ionic plugin rm cordova.sunmoon.location
 ```
 
 
