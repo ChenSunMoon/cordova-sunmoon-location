@@ -13,9 +13,7 @@
 
 ### 二，安装插件
 
-ionic plugin add https://github.com/sunmoon/cordova-baidu-location --variable API_KEY="<API_KEY>"
-**注：此处的API_KEY来自于第一步，不带左右尖括号**
-
+cordova plugin add https://github.com/ChenSunMoon/cordova-sunmoon-location -variable API_KEY="你的ak密钥"
 
 ### 三，调用方法
 ```
