@@ -27,21 +27,36 @@ baidu_location.clearWatch(successCallback, failedCallback);
 获得定位信息，返回JSON格式数据:
 ```
 {
-  latitude : 纬度,
-  longitude: 经度,
-  ...
+	"time": "2017-05-26 10:15:29",
+	"locType": 161,
+	"latitude": 32.141996,
+	"longitude": 118.885118,
+	"radius": 64.2035140991211,
+	"address": {
+		"city": "南京市",
+		"cityCode": "315",
+		"street": "兴智路",
+		"streetNumber": "6-2",
+		"country": "中国",
+		"countryCode": "0",
+		"province": "江苏省",
+		"district": "栖霞区",
+		"describe": "中国江苏省南京市栖霞区兴智路6-2"
+	},
+	"operators": 0,
+	"describe": "网络定位成功"
 }
 ```
 具体字段内容请参照：[BDLocation](http://developer.baidu.com/map/loc_refer/index.html)
 
 ### 四，查看当前安装了哪些插件
 ```
-ionic plugin ls
+cordova plugin ls
 ```
 
 ### 五，删除插件
 ```
-ionic plugin rm cordova.sunmoon.location
+cordova plugin rm cordova.sunmoon.location
 ```
 
 
