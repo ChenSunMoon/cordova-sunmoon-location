@@ -1,6 +1,16 @@
 package cordova.sunmoon.location;
 
-import android.util.Log;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
+import android.widget.Toast;
+
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.baidu.location.LocationClientOption.LocationMode;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -9,12 +19,6 @@ import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
-import com.baidu.location.LocationClientOption.LocationMode;
 
 /**
  * ionic 百度定位插件 for android
@@ -39,7 +43,6 @@ public class BaiduLocation extends CordovaPlugin {
     public LocationClient mLocationClient = null;
 
     public boolean stopListen = true;
-
     /**
      * 百度定位监听
      */
@@ -113,12 +116,14 @@ public class BaiduLocation extends CordovaPlugin {
         }
     };
 
+
     /**
      * 插件主入口
      */
     @Override
     public boolean execute(String action, final JSONArray args, CallbackContext callbackContext) throws JSONException {
         LOG.d(LOG_TAG, "Baidu Location #execute");
+
 
         boolean ret = false;
         cbCtx = callbackContext;
@@ -136,7 +141,10 @@ public class BaiduLocation extends CordovaPlugin {
             initLocation(0);
             if (mLocationClient.isStarted())
                 mLocationClient.stop();
-            mLocationClient.start();
+            if (checkPermission()){
+                mLocationClient.start();
+            }
+
             ret = true;
         } else if ("watchPosition".equalsIgnoreCase(action)) {
             stopListen = false;
@@ -151,7 +159,9 @@ public class BaiduLocation extends CordovaPlugin {
             initLocation(span * 1000);
             if (mLocationClient.isStarted())
                 mLocationClient.stop();
-            mLocationClient.start();
+            if (checkPermission()){
+                mLocationClient.start();
+            }
             ret = true;
         } else if ("clearWatch".equalsIgnoreCase(action)) {
             if (mLocationClient != null && mLocationClient.isStarted())
@@ -159,6 +169,27 @@ public class BaiduLocation extends CordovaPlugin {
             ret = true;
         }
         return ret;
+    }
+   public boolean checkPermission(){
+       if (ContextCompat.checkSelfPermission(cordova.getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                   cordova.requestPermissions(this,1, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION});
+           } else {
+               return true;
+           }
+           return false;
+       } else {
+           return true;
+       }
+   }
+    @Override
+    public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) throws JSONException {
+        super.onRequestPermissionResult(requestCode, permissions, grantResults);
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            mLocationClient.start();
+        } else {
+            Toast.makeText(cordova.getActivity(),"定位权限被禁止，无法使用定位功能。", Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
