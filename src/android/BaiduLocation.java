@@ -114,6 +114,11 @@ public class BaiduLocation extends CordovaPlugin {
                     mLocationClient.stop();
             }
         }
+
+        @Override
+        public void onConnectHotSpotMessage(String s, int i) {
+
+        }
     };
 
 
