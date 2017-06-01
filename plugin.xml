@@ -47,7 +47,7 @@
       <meta-data android:name="com.baidu.lbsapi.API_KEY" android:value="$API_KEY" />
     </config-file>
 
-    <source-file src="src/android/BaiduLocation.java" target-dir="src/com/sunmoon/plugins/baidu" />
+    <source-file src="src/android/BaiduLocation.java" target-dir="src/cordova/sunmoon/location" />
     <source-file src="libs/android/armeabi/liblocSDK6a.so" target-dir="libs/armeabi" />
     <source-file src="libs/android/armeabi-v7a/liblocSDK6a.so" target-dir="libs/armeabi-v7a" />
     <source-file src="libs/android/arm64-v8a/liblocSDK6a.so" target-dir="libs/arm64-v8a" />
